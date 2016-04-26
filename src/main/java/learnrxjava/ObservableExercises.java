@@ -3,6 +3,7 @@ package learnrxjava;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;
 import rx.Observable;
+import rx.functions.Func2;
 
 public class ObservableExercises {
 
@@ -12,16 +13,15 @@ public class ObservableExercises {
      * @return "Hello World!"
      */
     public Observable<String> exerciseHello() {
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return Observable.just("Hello World!");
     }
 
     /**
      * Transform the incoming Observable from "Hello" to "Hello [Name]" where [Name] is your name.
      *
-     * @param "Hello Name!"
      */
     public Observable<String> exerciseMap(Observable<String> hello) {
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return hello.map(hi -> hi + " Andrey");
     }
 
     /**
@@ -32,17 +32,16 @@ public class ObservableExercises {
      * 6-Even
      */
     public Observable<String> exerciseFilterMap(Observable<Integer> nums) {
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return nums.filter(num -> num % 2 == 0).map(num -> num + "-Even");
     }
 
     /**
      * Flatten out all video in the stream of Movies into a stream of videoIDs
      * 
-     * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
     public Observable<Integer> exerciseConcatMap(Observable<Movies> movies) {
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return movies.concatMap(mov -> mov.videos).map(mov -> mov.id);
     }
 
     /**
@@ -55,11 +54,10 @@ public class ObservableExercises {
      * 
      * We'll see more about this later when we add concurrency.
      * 
-     * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
     public Observable<Integer> exerciseFlatMap(Observable<Movies> movies) {
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return movies.flatMap(mov -> mov.videos).map(mov -> mov.id);
     }
 
     /**
@@ -68,7 +66,7 @@ public class ObservableExercises {
      * Use reduce to select the maximum value in a list of numbers.
      */
     public Observable<Integer> exerciseReduce(Observable<Integer> nums) {
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return nums.reduce(Integer.MIN_VALUE, (accum, value) -> accum = value > accum ? value : accum);
     }
 
     /**
@@ -114,6 +112,7 @@ public class ObservableExercises {
     }
 
     // This function can be used to build JSON objects within an expression
+    @SuppressWarnings("unused")
     private static JSON json(Object... keyOrValue) {
         JSON json = new JSON();
 

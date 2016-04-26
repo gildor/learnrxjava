@@ -65,9 +65,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     public static void exercise2() {
         ComposableListExercises<String> names = ComposableListExercises.of("Ben", "Jafar", "Matt", "Priya", "Brian");
 
-        names.forEach(name -> {
-            System.out.println(name);
-        });
+        names.forEach(System.out::println);
     }
 
     /*
@@ -119,21 +117,15 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     Finish the implementation of ComposableList's map method below:
      */
     public <R> ComposableList<R> map(Function<T, R> projectionFunction) {
-        ComposableListExercises<R> results = new ComposableListExercises<R>();
+        ComposableListExercises<R> results = new ComposableListExercises<>();
         this.forEach(itemInList -> {
-            // ------------ INSERT CODE HERE! ----------------------------
-            // Apply the projectionFunction to each item in the list and add
-            // each result to the results list.
-            // Note that you can apply a projectionFunction to a value like this:
-            //  projectionFunction.apply(5)
-            // ------------ INSERT CODE HERE! ----------------------------
+            results.add(projectionFunction.apply(itemInList));
             
         });
         
-        //return results;
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return results;
     }
-    
+
     /*
     Exercise 5: Use map() to project a ComposableList of videos into a stream of {id,title} JSON
 
@@ -147,9 +139,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             new Video(65432445, "The Chamber", 4.0),
             new Video(675465, "Fracture", 5.0));
          
-        // complete this expression 
-        // return newReleases.map(video -> 
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return newReleases.map(movie -> json("id", movie.id, "title", movie.title));
     }
 
     /*
@@ -187,13 +177,12 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         ComposableListExercises<Video> highRatedVideos = new ComposableListExercises<Video>();
 
         newReleases.forEach(video -> {
-            // Insert code here that adds a video to the highRatedVideos list
-            // if it has a rating of 5.0.
-
+            if (video.rating == 5.0) {
+                highRatedVideos.add(video);
+            }
         });
-        
-        // return highRatedVideos;
-        throw new UnsupportedOperationException("Not implemented yet.");        
+
+        return highRatedVideos;
     }
     
     /*
@@ -215,17 +204,13 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     public ComposableList<T> filter(Predicate<T> predicateFunction) {
         ComposableListExercises<T> results = new ComposableListExercises<T>();
         this.forEach(itemInList -> {
-            // ------------ INSERT CODE HERE! ----------------------------
-            // Apply the predicateFunction to each item in the list. If the
-            // result is true, add the result to the results list.
-            // Note: you can apply the predicateFunction to a value like this:
-            // predicateFunction.test(5)
-            // ------------ INSERT CODE HERE! ----------------------------
+            if (predicateFunction.test(itemInList)) {
+                results.add(itemInList);
+            }
 
         });
 
-        // return results;
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return results;
     }
 
     /*
@@ -260,13 +245,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
                             5.0
                     ));
 
-        // ------------ INSERT CODE HERE! -----------------------------------
-        // Chain the filter and map functions to select the id of all videos
-        // with a rating of 5.0.
-        // ------------ INSERT CODE HERE! -----------------------------------
-        //return newReleases // Complete this expression
-
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return newReleases.filter(video -> video.rating == 5.0).map(video -> video.id);
     }
 
     /*
